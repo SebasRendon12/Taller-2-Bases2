@@ -10,13 +10,13 @@ public class Punto1 extends JFrame {
 
   public Punto1(String titulo) {
     super(titulo); // titulo de la ventana
-    this.setSize(700, 400);// tama�o de la ventana
+    this.setSize(700, 400);// tamaño de la ventana
     iniciarComponentes();
   }
 
   private void iniciarComponentes() {
     JPanel panel = new JPanel();
-    panel.setLayout(null); // desactivando el dise�o
+    panel.setLayout(null); // desactivando el diseño
     this.getContentPane().add(panel);
 
     JLabel title = new JLabel("Ingreso de datos de los locales de una ciudad");

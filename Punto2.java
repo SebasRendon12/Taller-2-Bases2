@@ -47,7 +47,7 @@ public class Punto2 extends JFrame {
     try { // Se carga el driver JDBC-ODBC
       Class.forName("oracle.jdbc.driver.OracleDriver");
     } catch (Exception err) {
-      System.out.println("No se pudo cargar el driver JDBC");
+      JOptionPane.showMessageDialog(null, "No se pudo cargar el driver JDBC");
       return;
     }
 
@@ -56,7 +56,7 @@ public class Punto2 extends JFrame {
       conn = DriverManager.getConnection(connection.getConn(), connection.getUser(), connection.getPass());
       sentencia = conn.createStatement();
     } catch (SQLException err) {
-      System.out.println("No hay conexi�n con la base de datos.");
+      JOptionPane.showMessageDialog(null, "No hay conexión con la base de datos.");
       return;
     }
 
@@ -66,7 +66,7 @@ public class Punto2 extends JFrame {
         ciudades.addItem(resultado.getString("nombre_ciudad"));
       }
     } catch (SQLException err) {
-      System.out.println("Error: " + err.getMessage());
+      JOptionPane.showMessageDialog(null, "Error: " + err.getMessage());
     }
 
     ciudades.setBounds(350, 130, 100, 30);
@@ -95,15 +95,15 @@ public class Punto2 extends JFrame {
           try { // Se carga el driver JDBC-ODBC
             Class.forName("oracle.jdbc.driver.OracleDriver");
           } catch (Exception err) {
-            System.out.println("No se pudo cargar el driver JDBC");
+            JOptionPane.showMessageDialog(null, "No se pudo cargar el driver JDBC");
             return;
           }
 
-          try { // Se establece la conexi�n con la base de datos Oracle Express
+          try { // Se establece la conexión con la base de datos Oracle Express
             conn = DriverManager.getConnection("jdbc:oracle:thin:@DESKTOP-NF5GC4E:1521:xe", "ricardo", "123");
             sentencia = conn.createStatement();
           } catch (SQLException err) {
-            System.out.println("No hay conexi�n con la base de datos.");
+            JOptionPane.showMessageDialog(null, "No hay conexión con la base de datos.");
             return;
           }
 
@@ -112,7 +112,7 @@ public class Punto2 extends JFrame {
             // A MANO EN SQL
             // en esta seccion del codigo llenamos el map con los datos existentes en la
             // base de datos
-            // seleccion de una ciudad System.out.println(ciudades.getSelectedItem());
+            // seleccion de una ciudad JOptionPane.showMessageDialog(null, ciudades.getSelectedItem());
             resultado = sentencia.executeQuery(
                 "select codigovendedor,ciudad,t2.* from vvcity t,TABLE(t.ventas) t2 WHERE codigovendedor = "
                     + ciudad.getText() + " AND ciudad = '" + ciudades.getSelectedItem() + "'");
@@ -122,11 +122,11 @@ public class Punto2 extends JFrame {
                   resultado.getString("y"));
               mapita.put(ejemplo, Integer.parseInt(resultado.getString("v")));
 
-              // System.out.println(resultado.getString("codigovendedor"));
-              // System.out.println(resultado.getString("ciudad"));
-              // System.out.println(resultado.getString("x"));
-              // System.out.println(resultado.getString("y"));
-              // System.out.println(resultado.getString("v"));
+              // JOptionPane.showMessageDialog(null, resultado.getString("codigovendedor"));
+              // JOptionPane.showMessageDialog(null, resultado.getString("ciudad"));
+              // JOptionPane.showMessageDialog(null, resultado.getString("x"));
+              // JOptionPane.showMessageDialog(null, resultado.getString("y"));
+              // JOptionPane.showMessageDialog(null, resultado.getString("v"));
             }
             // se llenan los nuevos datos
             for (String punto : datos.getText().split("\n")) {
@@ -141,7 +141,7 @@ public class Punto2 extends JFrame {
             // se inserta a la base de datos
             resultado = sentencia.executeQuery("DELETE FROM VVCITY WHERE codigovendedor = " + ciudad.getText()
                 + " AND ciudad = '" + ciudades.getSelectedItem() + "'");
-            // System.out.println(resultado.getString("ciudad"));
+            // JOptionPane.showMessageDialog(null, resultado.getString("ciudad"));
             String consulta = "INSERT INTO VVCITY VALUES(" + ciudad.getText() + "," + "'" + ciudades.getSelectedItem()
                 + "'" + ",nest_ventas(";
             for (Map.Entry<Pair<String, String>, Integer> entry : mapita.entrySet()) {
@@ -157,11 +157,11 @@ public class Punto2 extends JFrame {
 
             // Se cierra la conexion con la BD
             conn.close();
-            // Se pintan dos c�rculos (que NO est�n en la BD)
+            // Se pintan dos círculos (que NO están en la BD)
             datos.setText("");
             JOptionPane.showMessageDialog(null, "Los datos se ingersaron con exito");
           } catch (SQLException err) {
-            System.out.println("Error: " + err.getMessage());
+            JOptionPane.showMessageDialog(null, "Error: " + err.getMessage());
           }
         }
       }

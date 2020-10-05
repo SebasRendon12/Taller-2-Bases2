@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Punto3 extends JFrame {
@@ -37,7 +38,7 @@ public class Punto3 extends JFrame {
     try { // Se carga el driver JDBC-ODBC
       Class.forName("oracle.jdbc.driver.OracleDriver");
     } catch (Exception err) {
-      System.out.println("No se pudo cargar el driver JDBC");
+      JOptionPane.showMessageDialog(null, "No se pudo cargar el driver JDBC");
       return;
     }
 
@@ -46,7 +47,7 @@ public class Punto3 extends JFrame {
       conn = DriverManager.getConnection(connection.getConn(), connection.getUser(), connection.getPass());
       sentencia = conn.createStatement();
     } catch (SQLException err) {
-      System.out.println("No hay conexi�n con la base de datos.");
+      JOptionPane.showMessageDialog(null, "No hay conexión con la base de datos.");
       return;
     }
 
@@ -56,7 +57,7 @@ public class Punto3 extends JFrame {
         ciudades.addItem(resultado.getString("nombre_ciudad"));
       }
     } catch (SQLException err) {
-      System.out.println("Error: " + err.getMessage());
+      JOptionPane.showMessageDialog(null, "Error: " + err.getMessage());
     }
     ciudades.setBounds(100, 100, 100, 30);
     panel.add(ciudades);

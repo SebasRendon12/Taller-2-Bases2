@@ -53,7 +53,7 @@ public class GraficoPunto3 extends JFrame {
     try { // Se carga el driver JDBC-ODBC
       Class.forName("oracle.jdbc.driver.OracleDriver");
     } catch (Exception e) {
-      System.out.println("No se pudo cargar el driver JDBC");
+      JOptionPane.showMessageDialog(null, "No se pudo cargar el driver JDBC");
       return;
     }
 
@@ -62,7 +62,7 @@ public class GraficoPunto3 extends JFrame {
       conn = DriverManager.getConnection(connection.getConn(), connection.getUser(), connection.getPass());
       sentencia = conn.createStatement();
     } catch (SQLException e) {
-      System.out.println("No hay conexi�n con la base de datos.");
+      JOptionPane.showMessageDialog(null, "No hay conexión con la base de datos.");
       return;
     }
     try {
@@ -74,11 +74,11 @@ public class GraficoPunto3 extends JFrame {
         Pair<String, String> ejemplo = new Pair<String, String>(resultado.getString("x"), resultado.getString("y"));
         mapita.put(ejemplo, Integer.parseInt(resultado.getString("v")));
 
-        // System.out.println(resultado.getString("codigovendedor"));
-        // System.out.println(resultado.getString("ciudad"));
-        // System.out.println(resultado.getString("x"));
-        // System.out.println(resultado.getString("y"));
-        // System.out.println(resultado.getString("v"));
+        // JOptionPane.showMessageDialog(null, resultado.getString("codigovendedor"));
+        // JOptionPane.showMessageDialog(null, resultado.getString("ciudad"));
+        // JOptionPane.showMessageDialog(null, resultado.getString("x"));
+        // JOptionPane.showMessageDialog(null, resultado.getString("y"));
+        // JOptionPane.showMessageDialog(null, resultado.getString("v"));
       }
       for (Map.Entry<Pair<String, String>, Integer> entry : mapita.entrySet()) {
         g.setColor(Color.blue);
@@ -89,7 +89,7 @@ public class GraficoPunto3 extends JFrame {
       }
 
     } catch (SQLException e) {
-      System.out.println("error " + e);
+      JOptionPane.showMessageDialog(null, "error " + e);
       return;
     }
     try {
