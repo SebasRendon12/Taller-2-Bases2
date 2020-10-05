@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,6 +19,7 @@ import javafx.util.Pair;
 
 public class GraficoPunto3 extends JFrame {
 
+  private static final long serialVersionUID = 1L;
   static String Ciudad = "";
 
   public GraficoPunto3(String ciudad) {
@@ -27,23 +27,22 @@ public class GraficoPunto3 extends JFrame {
   }
 
   public void paint(Graphics g) {
-    Dimension d = getSize();
-    int x = 500;
-    int y = 500;
+    int x = 550;
+    int y = 550;
     Map<Pair<String, String>, Integer> mapita = new HashMap<>();
 
     g.setColor(Color.yellow);
-    g.fillRect(50, 50, x, y);
+    g.fillRect(50, 50, 500, 500);
 
     g.setColor(Color.green);
-    for (int i = 0; i < y; i += 25)
+    for (int i = 50; i < y; i += 25)
       g.drawLine(50, i, x, i);
-    for (int i = 0; i < x; i += 25)
+    for (int i = 50; i < x; i += 25)
       g.drawLine(i, 50, i, y);
 
     g.setColor(Color.red);
-    g.drawLine(x / 2, 50, x / 2, y);
-    g.drawLine(50, y / 2, x, y / 2);
+    g.drawLine(600 / 2, 50, 600 / 2, y);
+    g.drawLine(50, 600 / 2, x, 600 / 2);
     g.setColor(Color.blue);
 
     Connection conn;

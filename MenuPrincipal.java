@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 
 public class MenuPrincipal extends JFrame {
+
+  private static final long serialVersionUID = 1L;
+
   public MenuPrincipal(String titulo) {
     super(titulo); // titulo de la ventana
     this.setSize(700, 300);// tamaño de la ventana

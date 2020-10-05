@@ -8,6 +8,8 @@ import java.sql.*;
 
 public class Punto1 extends JFrame {
 
+  private static final long serialVersionUID = 1L;
+
   public Punto1(String titulo) {
     super(titulo); // titulo de la ventana
     this.setSize(700, 400);// tamaño de la ventana
@@ -46,7 +48,7 @@ public class Punto1 extends JFrame {
           JOptionPane.showMessageDialog(null, "No se pudo cargar el driver JDBC");
           return;
         }
-        try { 
+        try {
           conexion connection = new conexion();
           conn = DriverManager.getConnection(connection.getConn(), connection.getUser(), connection.getPass());
           sentencia = conn.createStatement();
@@ -244,7 +246,6 @@ public class Punto1 extends JFrame {
         } catch (SQLException err) {
           JOptionPane.showMessageDialog(null, "Error: " + err.getMessage());
         }
-
       }
     };
     boton1.addActionListener(oyenteDeAccion);

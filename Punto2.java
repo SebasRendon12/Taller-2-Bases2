@@ -19,6 +19,8 @@ import javax.swing.JTextField;
 import javafx.util.Pair;
 
 public class Punto2 extends JFrame {
+  
+  private static final long serialVersionUID = 1L;
 
   public Punto2(String titulo) {
     super(titulo); // titulo de la ventana
@@ -43,7 +45,7 @@ public class Punto2 extends JFrame {
     Connection conn;
     Statement sentencia;
     ResultSet resultado;
-    JComboBox ciudades = new JComboBox();
+    JComboBox<String> ciudades = new JComboBox<>();
     try { // Se carga el driver JDBC-ODBC
       Class.forName("oracle.jdbc.driver.OracleDriver");
     } catch (Exception err) {

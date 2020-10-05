@@ -13,6 +13,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Punto3 extends JFrame {
+
+  private static final long serialVersionUID = 1L;
+
   public Punto3(String titulo) {
     super(titulo); // titulo de la ventana
     this.setSize(500, 200);// tamaño de la ventana
@@ -34,7 +37,7 @@ public class Punto3 extends JFrame {
     Connection conn;
     Statement sentencia;
     ResultSet resultado;
-    JComboBox ciudades = new JComboBox();
+    JComboBox<String> ciudades = new JComboBox<>();
     try { // Se carga el driver JDBC-ODBC
       Class.forName("oracle.jdbc.driver.OracleDriver");
     } catch (Exception err) {
