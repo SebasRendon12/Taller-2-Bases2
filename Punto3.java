@@ -75,7 +75,6 @@ public class Punto3 extends JFrame {
         DrawWindow.setResizable(false);
         DrawWindow.setLocation(200, 50);
         DrawWindow.setTitle("Pintando figuras almacenadas en la BD");
-        DrawWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         DrawWindow.setVisible(true);
       }
     };

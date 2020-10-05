@@ -25,9 +25,12 @@ public class MenuPrincipal extends JFrame {
     JButton boton2 = new JButton("Ingresar los datos de ventas en una ciudad");
     boton2.setBounds(300, 50, 300, 40);
     panel.add(boton2);
-    JButton boton3 = new JButton("TercerPunto");
-    boton3.setBounds(30, 100, 150, 40);
+    JButton boton3 = new JButton("Graficar ventas por ciudad");
+    boton3.setBounds(30, 150, 200, 40);
     panel.add(boton3);
+    JButton boton4 = new JButton("Ventas por locales en una ciudad");
+    boton4.setBounds(300, 150, 300, 40);
+    panel.add(boton4);
     ActionListener oyenteDeAccion = new ActionListener() {
       @Override
       public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -52,6 +55,14 @@ public class MenuPrincipal extends JFrame {
       }
     };
     boton3.addActionListener(oyenteDeAccion2);
+    ActionListener oyenteDeAccion3 = new ActionListener() {
+      @Override
+      public void actionPerformed(java.awt.event.ActionEvent e) {
+        Punto4 grafica = new Punto4("Grafico de SUM(Ventas) por Locales y Puntos de venta de una ciudad");
+        grafica.setVisible(true);
+      }
+    };
+    boton4.addActionListener(oyenteDeAccion3);
   }
 
 }

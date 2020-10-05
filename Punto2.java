@@ -19,7 +19,7 @@ import javax.swing.JTextField;
 import javafx.util.Pair;
 
 public class Punto2 extends JFrame {
-  
+
   private static final long serialVersionUID = 1L;
 
   public Punto2(String titulo) {
@@ -101,8 +101,9 @@ public class Punto2 extends JFrame {
             return;
           }
 
-          try { // Se establece la conexión con la base de datos Oracle Express
-            conn = DriverManager.getConnection("jdbc:oracle:thin:@DESKTOP-NF5GC4E:1521:xe", "ricardo", "123");
+          try {
+            conexion connection = new conexion();
+            conn = DriverManager.getConnection(connection.getConn(), connection.getUser(), connection.getPass());
             sentencia = conn.createStatement();
           } catch (SQLException err) {
             JOptionPane.showMessageDialog(null, "No hay conexión con la base de datos.");
@@ -114,7 +115,8 @@ public class Punto2 extends JFrame {
             // A MANO EN SQL
             // en esta seccion del codigo llenamos el map con los datos existentes en la
             // base de datos
-            // seleccion de una ciudad JOptionPane.showMessageDialog(null, ciudades.getSelectedItem());
+            // seleccion de una ciudad JOptionPane.showMessageDialog(null,
+            // ciudades.getSelectedItem());
             resultado = sentencia.executeQuery(
                 "select codigovendedor,ciudad,t2.* from vvcity t,TABLE(t.ventas) t2 WHERE codigovendedor = "
                     + ciudad.getText() + " AND ciudad = '" + ciudades.getSelectedItem() + "'");
