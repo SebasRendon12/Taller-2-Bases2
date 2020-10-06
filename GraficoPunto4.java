@@ -26,6 +26,7 @@ public class GraficoPunto4 extends JFrame {
   }
 
   public void paint(Graphics g) {
+    int total1 = 0;
     int x = 550;
     int y = 550;
     Map<Pair<String, String>, Integer> mapita = new HashMap<>();
@@ -69,47 +70,59 @@ public class GraficoPunto4 extends JFrame {
       resultado = sentencia
           .executeQuery("SELECT DBMS_XMLGEN.GETXML('SELECT nombre_ciudad, Locales FROM CITY') docxml FROM DUAL");
       if (resultado.next()) {
-        String consulta = resultado.getString("docxml");
-        String rectangulo[] = consulta.split("<ROW>");
-        int number = 0;
-        for (int i = 1; i < rectangulo.length; i++) {
-          String primeraLinea = rectangulo[i].split("\n")[1];
-          if (primeraLinea.contains(Ciudad)) {
-            number = i;
-            break;
-          }
+        if (resultado.getString("docxml").contains("<rectangulo>")) {
+          String consulta = resultado.getString("docxml");
+          String rectangulo[] = consulta.split("<ROW>");
+          int number = 0;
+          for (int i = 1; i < rectangulo.length; i++) {
+            String primeraLinea = rectangulo[i].split("\n")[1];
+            if (primeraLinea.contains(Ciudad)) {
+              number = i;
+              break;
+            }
 
-        }
-        String[] local = rectangulo[number].split("<rectangulo>");
+          }
+          String[] local = rectangulo[number].split("<rectangulo>");
 
-        CiudadActual.NombreCiudad = Ciudad;
-        for (String string : local) {
-          Local newLocal = new Local();
-          Pattern patterna = Pattern.compile("\s*(?:(<a>\\w*<..>))", Pattern.CASE_INSENSITIVE);
-          Pattern patternb = Pattern.compile("\s*(?:(<b>\\w*<..>))", Pattern.CASE_INSENSITIVE);
-          Pattern patternc = Pattern.compile("\s*(?:(<c>\\w*<..>))", Pattern.CASE_INSENSITIVE);
-          Pattern patternd = Pattern.compile("\s*(?:(<d>\\w*<..>))", Pattern.CASE_INSENSITIVE);
-          Matcher matchera = patterna.matcher(string);
-          Matcher matcherb = patternb.matcher(string);
-          Matcher matcherc = patternc.matcher(string);
-          Matcher matcherd = patternd.matcher(string);
-          if (matchera.find()) {
-            newLocal.a = Integer.parseInt(matchera.group().substring(6 + 1, (matchera.group().length() - 4)));
+          CiudadActual.NombreCiudad = Ciudad;
+          for (String string : local) {
+            Local newLocal = new Local();
+            Pattern patterna = Pattern.compile("\s*(?:(<a>\\w*<..>))", Pattern.CASE_INSENSITIVE);
+            Pattern patternb = Pattern.compile("\s*(?:(<b>\\w*<..>))", Pattern.CASE_INSENSITIVE);
+            Pattern patternc = Pattern.compile("\s*(?:(<c>\\w*<..>))", Pattern.CASE_INSENSITIVE);
+            Pattern patternd = Pattern.compile("\s*(?:(<d>\\w*<..>))", Pattern.CASE_INSENSITIVE);
+            Matcher matchera = patterna.matcher(string);
+            Matcher matcherb = patternb.matcher(string);
+            Matcher matcherc = patternc.matcher(string);
+            Matcher matcherd = patternd.matcher(string);
+            if (matchera.find()) {
+              newLocal.a = Integer.parseInt(matchera.group().substring(6 + 1, (matchera.group().length() - 4)));
+            }
+            if (matcherb.find()) {
+              newLocal.b = Integer.parseInt(matcherb.group().substring(6 + 1, (matcherb.group().length() - 4)));
+            }
+            if (matcherc.find()) {
+              newLocal.c = Integer.parseInt(matcherc.group().substring(6 + 1, (matcherc.group().length() - 4)));
+            }
+            if (matcherd.find()) {
+              newLocal.d = Integer.parseInt(matcherd.group().substring(6 + 1, (matcherd.group().length() - 4)));
+            }
+            if (newLocal.a != null && newLocal.b != null && newLocal.c != null && newLocal.d != null) {
+              lstLocales.add(newLocal);
+            }
           }
-          if (matcherb.find()) {
-            newLocal.b = Integer.parseInt(matcherb.group().substring(6 + 1, (matcherb.group().length() - 4)));
-          }
-          if (matcherc.find()) {
-            newLocal.c = Integer.parseInt(matcherc.group().substring(6 + 1, (matcherc.group().length() - 4)));
-          }
-          if (matcherd.find()) {
-            newLocal.d = Integer.parseInt(matcherd.group().substring(6 + 1, (matcherd.group().length() - 4)));
-          }
-          if (newLocal.a != null && newLocal.b != null && newLocal.c != null && newLocal.d != null) {
-            lstLocales.add(newLocal);
+          CiudadActual.Locales = lstLocales;
+        } else {
+          resultado = sentencia
+              .executeQuery("select codigovendedor,ciudad,t2.* from vvcity t,TABLE(t.ventas) t2 WHERE ciudad = '"
+                  + GraficoPunto4.Ciudad + "'");
+          while (resultado.next()) {
+            Pair<String, String> ejemplo = new Pair<String, String>(resultado.getString("x"), resultado.getString("y"));
+            mapita.put(ejemplo, Integer.parseInt(resultado.getString("v")));
+            total1 += Integer.parseInt(resultado.getString("v"));
+            g.drawString("Ventas por fuera de los locales: " + total1, 150, 565);
           }
         }
-        CiudadActual.Locales = lstLocales;
       } else {
         JOptionPane.showMessageDialog(null, "No hay locales en esta ciudad");
       }
@@ -162,7 +175,7 @@ public class GraficoPunto4 extends JFrame {
       g.setColor(Color.white);
       g.fillRect(142, 552, 250, 17);
       g.setColor(Color.black);
-      g.drawString("Ventas por fuera de los locales: " + total, 150, 565);
+      g.drawString("Ventas por fuera de los locales: " + (total+total1), 150, 565);
 
     } catch (
 

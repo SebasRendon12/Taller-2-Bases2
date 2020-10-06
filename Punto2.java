@@ -86,8 +86,41 @@ public class Punto2 extends JFrame {
       @Override
       public void actionPerformed(java.awt.event.ActionEvent e) {
         Map<Pair<String, String>, Integer> mapita = new HashMap<>();
-        if (datos.getText() == "") {
-          JOptionPane.showMessageDialog(null, "Debes llenar los datos para que se pueda ejecutar el programa");
+        if (datos.getText().replace(" ", "").length() == 0) {
+          Connection conn;
+          Statement sentencia;
+          ResultSet resultado;
+          try { // Se carga el driver JDBC-ODBC
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+          } catch (Exception err) {
+            JOptionPane.showMessageDialog(null, "No se pudo cargar el driver JDBC");
+            return;
+          }
+          try {
+            conexion connection = new conexion();
+            conn = DriverManager.getConnection(connection.getConn(), connection.getUser(), connection.getPass());
+            sentencia = conn.createStatement();
+          } catch (SQLException err) {
+            JOptionPane.showMessageDialog(null, "No hay conexión con la base de datos.");
+            return;
+          }
+          try {
+            resultado = sentencia.executeQuery(
+                "select codigovendedor,ciudad,t2.* from vvcity t,TABLE(t.ventas) t2 WHERE codigovendedor = "
+                    + ciudad.getText() + " AND ciudad = '" + ciudades.getSelectedItem() + "'");
+            if (resultado.next()) {
+              JOptionPane.showMessageDialog(null,
+                  "No se ingersaron datos a la base de datos, pues usted no escribio nada en el cuadrado de locales y ya existen ventas ingresados");
+              System.exit(1);
+            }
+            resultado = sentencia.executeQuery(
+                "INSERT INTO vvcity VALUES(" + ciudad.getText() + ",'" + ciudades.getSelectedItem() + "',NULL)");
+            JOptionPane.showMessageDialog(null,
+                "Se ingresaron los datos con NULL ventas satisfactoriamente(osea no se ingresaron ventas)");
+          } catch (SQLException err) {
+            JOptionPane.showMessageDialog(null, "Error" + err);
+            return;
+          }
         } else {
 
           Connection conn;
@@ -137,7 +170,9 @@ public class Punto2 extends JFrame {
               Pair<String, String> ejemplo = new Pair<String, String>(punto.split(",")[0], punto.split(",")[1]);
               if (mapita.get(ejemplo) != null) {
                 Integer a = mapita.get(ejemplo);
-                mapita.put(ejemplo, (Integer.parseInt(punto.split(",")[2]) + a));
+                if (Integer.parseInt(punto.split(",")[2]) > 0) {
+                  mapita.put(ejemplo, (Integer.parseInt(punto.split(",")[2]) + a));
+                }
               } else {
                 mapita.put(ejemplo, Integer.parseInt(punto.split(",")[2]));
               }
