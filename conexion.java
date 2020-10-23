@@ -1,7 +1,7 @@
 public class conexion {
-  private final String Nombre_PC = "DESKTOP-NF5GC4E";
-  private final String usuario = "ricardo";
-  private final String contraseña = "123";
+  private final String Nombre_PC = "RENDONARTEAGA";
+  private final String usuario = "sebas";
+  private final String contraseña = "sebas123";
 
   public String getConn() {
     return "jdbc:oracle:thin:@" + Nombre_PC + ":1521:xe";
